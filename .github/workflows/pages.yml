@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir docs
           cd docs
-          echo "<html><head>TEST</head><body><p>Hello world!</p></body></html>" > index.html
+          echo "<html><head><title>TEST</title></head><body><p>Hello world!</p></body></html>" > index.html
       - name: Prepare for pages
         uses: actions/upload-pages-artifact@v1.0.7
         with:
