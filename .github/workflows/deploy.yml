@@ -19,6 +19,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
             name: "docs"
+            path: "docs"
       - name: Check
         run: ls -R
       - name: Prepare for pages
