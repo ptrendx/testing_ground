@@ -1,16 +1,25 @@
 name: Create docs
 
 on:
-  workflow_dispatch:
   workflow_call:
+      inputs:
+          artifact-name:
+              required: true
+              type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Make docs
         run: |
           mkdir docs
           cd docs
           echo "<html><head><title>TEST</title></head><body><p>Hello world!</p></body></html>" > index.html
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+            name: ${{ inputs.artifact-name }}

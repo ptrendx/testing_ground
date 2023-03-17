@@ -7,19 +7,26 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/pages.yml
+    with:
+      artifact-name: "docs"
 
+  prepare:
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Create
-        uses: ./.github/workflows/pages.yml
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+            name: "docs"
+      - name: Check
+        run: ls -R
       - name: Prepare for pages
         uses: actions/upload-pages-artifact@v1.0.7
         with:
           path: "docs"
   deploy:
-    needs: build
+    needs: prepare
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
