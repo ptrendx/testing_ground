@@ -1,0 +1,30 @@
+name: Deploy docs
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create
+        uses: ./.github/workflows/pages.yml
+      - name: Prepare for pages
+        uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          path: "docs"
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy
+      uses: actions/deploy-pages@v2.0.0
